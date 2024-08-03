@@ -26,5 +26,4 @@ public class ContaDomainService {
         return contaRepository.findTotalPaidBetweenDates(inicio, fim);
     }
 
-    //TODO Outros métodos de lógica de negócios
 }

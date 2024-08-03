@@ -27,8 +27,8 @@ public class ConfiguracaoSeguranca {
     @Bean
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user")
-                .password("{noop}password")
+        manager.createUser(User.withUsername("mauricio")
+                .password("{noop}ejima")
                 .roles("USER")
                 .build());
         return manager;

@@ -56,4 +56,15 @@ public class ContaRepositoryImpl implements ContaRepository {
                 .setParameter("endDate", endDate)
                 .getSingleResult();
     }
+
+    @Override
+    public void saveAll(List<Conta> contas) {
+        for (Conta conta : contas) {
+            if (conta.getId() == null) {
+                entityManager.persist(conta);
+            } else {
+                entityManager.merge(conta);
+            }
+        }
+    }
 }

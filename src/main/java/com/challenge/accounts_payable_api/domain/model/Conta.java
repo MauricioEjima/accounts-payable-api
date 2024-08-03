@@ -1,8 +1,6 @@
 package com.challenge.accounts_payable_api.domain.model;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -22,7 +20,7 @@ public class Conta {
     @Enumerated(EnumType.STRING)
     private StatusConta situacao;
 
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
