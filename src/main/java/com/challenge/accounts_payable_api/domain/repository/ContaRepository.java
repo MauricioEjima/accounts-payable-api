@@ -13,4 +13,5 @@ public interface ContaRepository {
     List<Conta> findAll();
     List<Conta> findByDescricaoAndDataVencimento(String descricao, LocalDate dataVencimento);
     BigDecimal findTotalPaidBetweenDates(LocalDate startDate, LocalDate endDate);
+    void saveAll(List<Conta> contas);
 }

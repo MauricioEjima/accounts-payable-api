@@ -9,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +72,40 @@ public class ContaApplicationService {
     }
 
     public void importarContasViaCSV(MultipartFile file) {
-        //TODO Implementação da lógica de importação de CSV
+
+        if (file.isEmpty()) {
+            throw new RuntimeException("O arquivo CSV está vazio.");
+        }
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            String line;
+            List<Conta> contas = new ArrayList<>();
+
+            // Pular o cabeçalho se existir
+            boolean isFirstLine = true;
+
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue;
+                }
+                String[] data = line.split(",");
+                Conta conta = new Conta();
+
+                conta.setId(Long.valueOf(data[0]));
+                conta.setDescricao(data[1]);
+                conta.setDataVencimento(LocalDate.parse(data[2]));
+                conta.setDataPagamento(LocalDate.parse(data[3]));
+                conta.setValor(new BigDecimal(data[4]));
+                conta.setSituacao(StatusConta.valueOf(data[5]));
+
+                contas.add(conta);
+            }
+
+            contaRepository.saveAll(contas);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao ler o arquivo CSV: " + e.getMessage());
+        }
     }
 }
